@@ -3,7 +3,7 @@ import type { ReplicantMap } from './replicant';
 
 declare global {
   const nodecg: CreateNodecgInstance<
-    'bundle-name',
+    'yugioh',
     undefined,
     ReplicantMap,
     { [x: string]: string }

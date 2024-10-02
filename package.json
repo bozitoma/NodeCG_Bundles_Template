@@ -1,9 +1,12 @@
 {
-  "name": "bundel-name",
+  "name": "yugioh",
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "run-p dev:*",
+    "dev:tsc": "tsc -b src/browser src/extension -w --preserveWatchOutput",
+    "dev:vite": "vite",
+    "dev:nodecg": "onchange extension schema configschema.json -ik -- node --enable-source-maps ../..",
     "build": "tsc && vite build",
     "watch": "vite build --watch",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -30,16 +33,19 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.5",
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.14.9",
-    "@mui/material": "^5.14.10",
+    "@mui/material": "^5.16.7",
+    "better-sqlite3": "^8.7.0",
     "graphql": "^16.8.1",
+    "onchange": "^7.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@nodecg/types": "^2.1.11",
+    "@types/better-sqlite3": "^7.6.11",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
