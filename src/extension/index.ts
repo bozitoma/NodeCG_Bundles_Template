@@ -1,9 +1,8 @@
-import NodeCG from '@nodecg/types';
+import type { NodeCG } from './nodecg';
 import { YugiohDb } from './class';
 // import Database from 'better-sqlite3';
 
-
-export default (nodecg: NodeCG.ServerAPI) => {
+export default (nodecg: NodeCG) => {
   // const dbPath = './bundles/yugioh/src/db/yugioh.db'; //rootからの相対パス
   // const db = new Database(dbPath);
 
@@ -11,7 +10,6 @@ export default (nodecg: NodeCG.ServerAPI) => {
 
   // サーバー側にログを出す場合のコード
   // const log = new nodecg.Logger('yugioh');
-
 
   // const querySelectAllFromCards = 'SELECT * FROM card_types';
 
@@ -30,5 +28,9 @@ export default (nodecg: NodeCG.ServerAPI) => {
 
   // repYugioh.value = queryDataPokedex;
 
-  nodecg.listenFor('alert',yugiohDb.alert);
+  // nodecg.listenFor('alert', yugiohDb.alert);
+  nodecg.listenFor('search', yugiohDb.search);
+  // nodecg.listenFor('test', (data) => {
+  //   console.log(data);
+  // });
 };
