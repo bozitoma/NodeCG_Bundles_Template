@@ -51,7 +51,7 @@ export function App() {
       <Stack>
         {repYugioh
           ? repYugioh.map((card) => (
-              <Button onClick={() => setSelectCard(card.name_jp)}>{card.name_jp}</Button>
+              <Button onClick={() => setSelectCard(card.name_jp ?? '')}>{card.name_jp}</Button>
             ))
           : null}
       </Stack>

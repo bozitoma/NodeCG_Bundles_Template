@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model card_types {
+  id       Int     @id @default(autoincrement())
+  name_jp  String? @unique(map: "sqlite_autoindex_card_types_1")
+  name_eng String? @unique(map: "sqlite_autoindex_card_types_2")
+  cards    cards[]
+}
+
+model cards {
+  id                Int                @id @default(autoincrement())
+  card_type         String?
+  name_jp           String?
+  name_jp_furigana  String?
+  updata_date       DateTime?          @default(dbgenerated("datetime(CURRENT_TIMESTAMP,'localtime')"))
+  card_types        card_types?        @relation(fields: [card_type], references: [name_jp], onDelete: NoAction, onUpdate: NoAction)
+  effect_monsters   effect_monsters?
+  fusion_monsters   fusion_monsters?
+  link_monsters     link_monsters?
+  normal_monsters   normal_monsters?
+  pendulum_monsters pendulum_monsters?
+  ritual_monsters   ritual_monsters?
+  spells            spells?
+  synchro_monsters  synchro_monsters?
+  traps             traps?
+  xyz_monsters      xyz_monsters?
+}
+
+model effect_monsters {
+  card_id        Int     @id @default(autoincrement())
+  attribute      String?
+  level          String?
+  type           String?
+  effect         String?
+  tuner          String?
+  ability        String?
+  special_summon String?
+  card_text      String?
+  atk            String?
+  def            String?
+  cards          cards   @relation(fields: [card_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model fusion_monsters {
+  card_id        Int     @id @default(autoincrement())
+  attribute      String?
+  level          String?
+  type           String?
+  effect         String?
+  tuner          String?
+  ability        String?
+  special_summon String?
+  card_text      String?
+  atk            String?
+  def            String?
+  cards          cards   @relation(fields: [card_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model link_monsters {
+  card_id        Int     @id @default(autoincrement())
+  attribute      String?
+  type           String?
+  effect         String?
+  ability        String?
+  link_allow     String?
+  special_summon String?
+  card_text      String?
+  atk            String?
+  link_marker    String?
+  cards          cards   @relation(fields: [card_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model normal_monsters {
+  card_id        Int     @id @default(autoincrement())
+  attribute      String?
+  level          String?
+  type           String?
+  effect         String?
+  tuner          String?
+  ability        String?
+  special_summon String?
+  card_text      String?
+  atk            String?
+  def            String?
+  cards          cards   @relation(fields: [card_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model pendulum_monsters {
+  card_id         Int     @id @default(autoincrement())
+  attribute       String?
+  level           String?
+  type            String?
+  effect          String?
+  tuner           String?
+  ability         String?
+  special_summon  String?
+  pendulum_scale  String?
+  pendulum_effect String?
+  card_text       String?
+  atk             String?
+  def             String?
+  cards           cards   @relation(fields: [card_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model ritual_monsters {
+  card_id        Int     @id @default(autoincrement())
+  attribute      String?
+  level          String?
+  type           String?
+  effect         String?
+  tuner          String?
+  ability        String?
+  special_summon String?
+  card_text      String?
+  atk            String?
+  def            String?
+  cards          cards   @relation(fields: [card_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model spells {
+  card_id   Int     @id @default(autoincrement())
+  icon      String?
+  card_text String?
+  cards     cards   @relation(fields: [card_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model synchro_monsters {
+  card_id        Int     @id @default(autoincrement())
+  attribute      String?
+  level          String?
+  type           String?
+  effect         String?
+  tuner          String?
+  ability        String?
+  special_summon String?
+  card_text      String?
+  atk            String?
+  def            String?
+  cards          cards   @relation(fields: [card_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model traps {
+  card_id   Int     @id @default(autoincrement())
+  icon      String?
+  card_text String?
+  cards     cards   @relation(fields: [card_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model xyz_monsters {
+  card_id        Int     @id @default(autoincrement())
+  attribute      String?
+  rank           String?
+  type           String?
+  effect         String?
+  tuner          String?
+  ability        String?
+  special_summon String?
+  card_text      String?
+  atk            String?
+  def            String?
+  cards          cards   @relation(fields: [card_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}

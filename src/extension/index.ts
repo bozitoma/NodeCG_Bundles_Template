@@ -1,12 +1,32 @@
 import type { NodeCG } from './nodecg';
-import { YugiohDb } from './class';
+// import { YugiohDb } from './class';
+import { PrismaClient } from '@prisma/client';
 // import Database from 'better-sqlite3';
 
-export default (nodecg: NodeCG) => {
-  // const dbPath = './bundles/yugioh/src/db/yugioh.db'; //rootからの相対パス
-  // const db = new Database(dbPath);
+export default  (nodecg: NodeCG) => {
+  const prisma = new PrismaClient();
 
-  const yugiohDb = new YugiohDb(nodecg);
+  // サーバー側にログを出す場合のコード
+  const log = new nodecg.Logger('yugioh');
+
+  const search = async (word: string) => {
+    const result = await prisma.cards.findMany({
+      where: {
+        name_jp: {
+          contains: word,
+        },
+      },
+    });
+    // const dbPath = './bundles/yugioh/src/db/yugioh.db'; //rootからの相対パス
+    // const db = new Database(dbPath);
+
+    log.info(result)
+
+    const repYugioh = nodecg.Replicant('yugioh');
+    repYugioh.value = result;
+  };
+
+  // const yugiohDb = new YugiohDb(nodecg);
 
   // サーバー側にログを出す場合のコード
   // const log = new nodecg.Logger('yugioh');
@@ -29,7 +49,7 @@ export default (nodecg: NodeCG) => {
   // repYugioh.value = queryDataPokedex;
 
   // nodecg.listenFor('alert', yugiohDb.alert);
-  nodecg.listenFor('search', yugiohDb.search);
+  nodecg.listenFor('search', search);
   // nodecg.listenFor('test', (data) => {
   //   console.log(data);
   // });
