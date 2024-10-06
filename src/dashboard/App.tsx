@@ -4,6 +4,10 @@ import Button from '@mui/material/Button';
 import { useReplicant } from '../hooks/useReplicant';
 import { getImage } from '../util/getImage';
 import { Stack, TextField } from '@mui/material';
+import { Bestof } from '../components/Bestof';
+import { RecoilRoot } from 'recoil';
+import { Round } from '../components/Round';
+import { Player } from '../components/Player';
 
 export function App() {
   const [value, setValue] = useState('')
@@ -34,36 +38,41 @@ export function App() {
   const imgPath = getImage(`card/${selectCard}.jpg`);
 
   return (
-    <Stack>
-      <Stack direction="row" gap={2}>
-        <TextField
-          label="カード名"
-          variant="filled"
-          value={value}
-          onChange={onChange}
-          size="small"
-        />
-        <Button onClick={onClick} variant="contained" size="small">
-          検索
-        </Button>
-      </Stack>
-      <div>{value}</div>
+    <RecoilRoot>
       <Stack>
-        {repYugioh
-          ? repYugioh.map((card) => (
-              <Button onClick={() => setSelectCard(card.name_jp ?? '')}>{card.name_jp}</Button>
-            ))
-          : null}
+        <Stack direction="row" gap={2}>
+          <TextField
+            label="カード名"
+            variant="filled"
+            value={value}
+            onChange={onChange}
+            size="small"
+          />
+          <Button onClick={onClick} variant="contained" size="small">
+            検索
+          </Button>
+        </Stack>
+        <Round />
+        <Bestof />
+        <Player />
+        <div>{value}</div>
+        <Stack>
+          {repYugioh
+            ? repYugioh.map((card) => (
+                <Button onClick={() => setSelectCard(card.name_jp ?? '')}>{card.name_jp}</Button>
+              ))
+            : null}
+        </Stack>
+
+        {/* <Button onClick={onClick}>ボタン</Button> */}
+
+        {/* {value ? 'おはよう' : 'ございます'} */}
+
+        {/* <Button onClick={onExtension}>ボタン2</Button> */}
+        {/* <div>{repYugioh}</div> */}
+        <img src={imgPath} alt="" width={500} />
+        {/* <SelectComp /> */}
       </Stack>
-
-      {/* <Button onClick={onClick}>ボタン</Button> */}
-
-      {/* {value ? 'おはよう' : 'ございます'} */}
-
-      {/* <Button onClick={onExtension}>ボタン2</Button> */}
-      {/* <div>{repYugioh}</div> */}
-      <img src={imgPath} alt="" width={500} />
-      {/* <SelectComp /> */}
-    </Stack>
+    </RecoilRoot>
   );
 }
