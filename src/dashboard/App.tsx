@@ -9,6 +9,9 @@ import { RecoilRoot } from 'recoil';
 import { Round } from '../components/Round';
 import { Player } from '../components/Player';
 
+import { Phase } from '../components/Phase';
+import { PhaseController } from '../components/Phase/PhaseController';
+
 export function App() {
   const [value, setValue] = useState('')
   const [selectCard, setSelectCard] = useState('');
@@ -41,6 +44,7 @@ export function App() {
     <RecoilRoot>
       <Stack>
         <Stack direction="row" gap={2}>
+          <Phase />
           <TextField
             label="カード名"
             variant="filled"
@@ -55,6 +59,7 @@ export function App() {
         <Round />
         <Bestof />
         <Player />
+        <PhaseController />
         <div>{value}</div>
         <Stack>
           {repYugioh

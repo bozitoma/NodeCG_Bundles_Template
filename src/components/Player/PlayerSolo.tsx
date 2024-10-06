@@ -1,11 +1,11 @@
 import TextField from '@mui/material/TextField';
 import { useRecoilState } from 'recoil';
 import { scoreboradInfoAtom } from '../../store/atomScoreboard';
-import { playerSide } from '../../types/scoreborad';
+import { PlayerSide } from '../../types/scoreborad';
 import { ChangeEventHandler } from 'react';
 
 type Props = {
-  side: playerSide;
+  side: PlayerSide;
 };
 
 export function PlayerSolo({ side }: Props) {
