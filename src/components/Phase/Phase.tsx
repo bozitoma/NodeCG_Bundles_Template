@@ -1,17 +1,16 @@
 
 import { Stack } from '@mui/material';
-import { TogglePlayerSide } from './TogglePlayerSide';
-import { ToggleTurnPhase } from './ToggleTurnPhase';
+import { ToggleTurn } from './ToggleTurn';
+import { TogglePhase } from './TogglePhase';
+import { PhaseController } from './PhaseController';
+import { memo } from 'react';
 
-
-
-export const Phase = () => {
-
-
+export const Phase = memo(() => {
   return (
-    <Stack spacing={1} >
-      <TogglePlayerSide />
-      <ToggleTurnPhase />
+    <Stack spacing={2} >
+      <ToggleTurn />
+      <TogglePhase />
+      <PhaseController />
     </Stack>
   );
-};
+});

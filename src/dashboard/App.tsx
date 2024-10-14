@@ -1,83 +1,82 @@
-import { ChangeEventHandler, useCallback, useState } from 'react';
+import { ChangeEventHandler, memo, useCallback, useState } from 'react';
 import './App.css';
-import Button from '@mui/material/Button';
 import { useReplicant } from '../hooks/useReplicant';
-import { getImage } from '../util/getImage';
-import { Stack, TextField } from '@mui/material';
+
+import {  Stack } from '@mui/material';
 import { Bestof } from '../components/Bestof';
-import { RecoilRoot } from 'recoil';
 import { Round } from '../components/Round';
-import { Player } from '../components/Player';
 
 import { Phase } from '../components/Phase';
-import { PhaseController } from '../components/Phase/PhaseController';
+import { Decktypes } from '../components/Decktypes';
+import { Scores } from '../components/Scores';
+import { Wrapper } from '../components/Wrapper';
+import { Players } from '../components/Players';
+import { Buttons } from '../components/Buttons';
+import { Life } from '../components/Life';
+import { CardDisplay } from '../components/CardDisplay';
+import { TitleDivider } from '../components/TitleDivider';
+import { Turn } from '../types/scoreborad';
+
+const PlayerBox = memo(({side}: {side: Turn}) => {
+  return (
+    <Wrapper title={`${side} Player`} >
+      <Stack spacing={2}>
+        {/** 名前とデッキタイプを表示したい */}
+        <TitleDivider text="Life Point" />
+        <Life side={side} />
+        <TitleDivider text="Card" />
+        <CardDisplay side={side} />
+      </Stack>
+    </Wrapper>
+  );
+})
 
 export function App() {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState('');
   const [selectCard, setSelectCard] = useState('');
   const [repYugioh] = useReplicant('yugioh');
   // const [repYugioh, setRepYugioh] = useReplicant('yugioh');
 
-  const onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(
-    (e) => {
-      setValue(e.target.value);
-    },
-    []
-  );
+  // const nextPhase = useSetAtom(nextPhaseAtom);
+  // const prevPhase = useSetAtom(prevPhaseAtom);
 
-  const onClick = useCallback( () => {
+  const onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback((e) => {
+    setValue(e.target.value);
+  }, []);
+
+  const onClick = useCallback(() => {
     nodecg.sendMessage('search', value);
     console.log(repYugioh);
+    // nextPhase();
+    // prevPhase
   }, [value]);
 
-    // const onExtension = useCallback(() => {
-    //   nodecg.sendMessage('alert')
-  // }, [value]);
 
-  // useEffect(() => {
-  //   nodecg.sendMessage('alert');
-  // })
-
-  const imgPath = getImage(`card/${selectCard}.jpg`);
+  // const imgPath = getImage(`card/${selectCard}.jpg`);
 
   return (
-    <RecoilRoot>
-      <Stack>
-        <Stack direction="row" gap={2}>
+    <Stack spacing={2} direction="row">
+      <Stack spacing={2}>
+        <Wrapper title="Infomation">
+          <Stack spacing={2}>
+            <Stack spacing={2} direction="row">
+              <Round />
+              <Bestof />
+            </Stack>
+            <Players />
+            <Decktypes />
+            <Scores />
+            <Buttons />
+          </Stack>
+        </Wrapper>
+
+        <Wrapper title="Phase">
           <Phase />
-          <TextField
-            label="カード名"
-            variant="filled"
-            value={value}
-            onChange={onChange}
-            size="small"
-          />
-          <Button onClick={onClick} variant="contained" size="small">
-            検索
-          </Button>
-        </Stack>
-        <Round />
-        <Bestof />
-        <Player />
-        <PhaseController />
-        <div>{value}</div>
-        <Stack>
-          {repYugioh
-            ? repYugioh.map((card) => (
-                <Button onClick={() => setSelectCard(card.name_jp ?? '')}>{card.name_jp}</Button>
-              ))
-            : null}
-        </Stack>
-
-        {/* <Button onClick={onClick}>ボタン</Button> */}
-
-        {/* {value ? 'おはよう' : 'ございます'} */}
-
-        {/* <Button onClick={onExtension}>ボタン2</Button> */}
-        {/* <div>{repYugioh}</div> */}
-        <img src={imgPath} alt="" width={500} />
-        {/* <SelectComp /> */}
+        </Wrapper>
       </Stack>
-    </RecoilRoot>
+
+      <PlayerBox side="Red" />
+      <PlayerBox side="Blue" />
+    </Stack>
   );
 }

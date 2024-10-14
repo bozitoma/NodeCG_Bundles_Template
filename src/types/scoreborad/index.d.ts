@@ -1,8 +1,8 @@
-import { scoreboradDefaultValues } from "../../defaultValues/scoreboard";
+import { playerDefaultValues, scoreboradDefaultValues } from "../../defaultValues/scoreboard";
 
-export type PlayerSide = keyof typeof scoreboradDefaultValues.Player;
+export type Turn = keyof typeof scoreboradDefaultValues.Player;
 
-export type TurnPhase =
+export type Phase =
   | 'DRAW PHASE'
   | 'STANDBY PHASE'
   | 'MAIN PHASE 1'
@@ -10,7 +10,14 @@ export type TurnPhase =
   | 'MAIN PHASE 2'
   | 'END PHASE';
 
-export type Phase = {
-  PlayerSide: playerSide;
-  TurnPhase: tunePhase;
+export type Scoreboard = {
+  Round: string;
+  Bestof: string;
+  Turn: Turn;
+  Phase: Phase,
+};
+
+export type Player = {
+  Red: typeof playerDefaultValues;
+  Blue: typeof playerDefaultValues;
 };

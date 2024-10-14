@@ -1,6 +1,6 @@
-import { Phase, TurnPhase } from '../types/scoreborad';
+import { Phase } from '../types/scoreborad';
 
-export const turnPhases: TurnPhase[] = [
+export const phases: Phase[] = [
   'DRAW PHASE',
   'STANDBY PHASE',
   'MAIN PHASE 1',
@@ -9,13 +9,10 @@ export const turnPhases: TurnPhase[] = [
   'END PHASE',
 ];
 
-const phaseDefaultValues: Phase = {
-  PlayerSide: 'Red',
-  TurnPhase: 'DRAW PHASE',
-};
-
-const playerDefaultValues = {
+export const playerDefaultValues = {
   name: 'name',
+  decktype: '',
+  life: 8000,
   card: '',
   score: 0,
 };
@@ -29,5 +26,5 @@ export const scoreboradDefaultValues = {
     Red: playerDefaultValues,
     Blue: playerDefaultValues,
   },
-  Phase: phaseDefaultValues,
+  Phase: phases,
 };

@@ -1,10 +1,7 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'jotai';
 import { scoreboradDefaultValues } from '../defaultValues/scoreboard';
 
-export const scoreboradInfoAtom = atom({
-  key: 'scoreboradInfoAtom',
-  default: scoreboradDefaultValues
-});
+export const scoreboradInfoAtom = atom(scoreboradDefaultValues);
 
 // export const turnPhaseAtom = selector({
 //   key: 'turnPhaseAtom',

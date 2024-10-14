@@ -3,7 +3,7 @@ import type { NodeCG } from './nodecg';
 import { PrismaClient } from '@prisma/client';
 // import Database from 'better-sqlite3';
 
-export default  (nodecg: NodeCG) => {
+export default (nodecg: NodeCG) => {
   const prisma = new PrismaClient();
 
   // サーバー側にログを出す場合のコード
@@ -12,15 +12,24 @@ export default  (nodecg: NodeCG) => {
   const search = async (word: string) => {
     const result = await prisma.cards.findMany({
       where: {
-        name_jp: {
-          contains: word,
-        },
+        OR: [
+          {
+            name_jp: {
+              contains: word,
+            },
+          },
+          {
+            name_jp_furigana: {
+              contains: word,
+            },
+          },
+        ],
       },
     });
     // const dbPath = './bundles/yugioh/src/db/yugioh.db'; //rootからの相対パス
     // const db = new Database(dbPath);
 
-    log.info(result)
+    log.info(result);
 
     const repYugioh = nodecg.Replicant('yugioh');
     repYugioh.value = result;
