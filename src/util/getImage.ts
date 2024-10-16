@@ -3,3 +3,7 @@
 export const getImage = (fileName: string): string => {
   return new URL(`../assets/${fileName}`, import.meta.url).href;
 };
+
+export const getCardImage = (fileName: string): string => {
+  return new URL(`../assets/card/${fileName}.jpg`, import.meta.url).href;
+};

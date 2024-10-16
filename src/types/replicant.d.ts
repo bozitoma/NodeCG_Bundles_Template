@@ -1,7 +1,10 @@
 // Replicantsの型を定義
 export interface ReplicantMap {
   // Sample
-  yugioh: {
+  yugiohCardRedPlayer: {
+    name_jp: string | null;
+  }[];
+  yugiohCardBluePlayer: {
     name_jp: string | null;
   }[];
   // yugioh: {

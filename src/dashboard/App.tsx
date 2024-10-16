@@ -32,24 +32,24 @@ const PlayerBox = memo(({side}: {side: Turn}) => {
 })
 
 export function App() {
-  const [value, setValue] = useState('');
-  const [selectCard, setSelectCard] = useState('');
-  const [repYugioh] = useReplicant('yugioh');
-  // const [repYugioh, setRepYugioh] = useReplicant('yugioh');
+  // const [value, setValue] = useState('');
+  // const [selectCard, setSelectCard] = useState('');
+  // const [repYugioh] = useReplicant('yugioh');
+  // // const [repYugioh, setRepYugioh] = useReplicant('yugioh');
 
-  // const nextPhase = useSetAtom(nextPhaseAtom);
-  // const prevPhase = useSetAtom(prevPhaseAtom);
+  // // const nextPhase = useSetAtom(nextPhaseAtom);
+  // // const prevPhase = useSetAtom(prevPhaseAtom);
 
-  const onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback((e) => {
-    setValue(e.target.value);
-  }, []);
+  // const onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback((e) => {
+  //   setValue(e.target.value);
+  // }, []);
 
-  const onClick = useCallback(() => {
-    nodecg.sendMessage('search', value);
-    console.log(repYugioh);
-    // nextPhase();
-    // prevPhase
-  }, [value]);
+  // const onClick = useCallback(() => {
+  //   nodecg.sendMessage('search', value);
+  //   console.log(repYugioh);
+  //   // nextPhase();
+  //   // prevPhase
+  // }, [value]);
 
 
   // const imgPath = getImage(`card/${selectCard}.jpg`);

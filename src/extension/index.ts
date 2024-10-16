@@ -1,3 +1,4 @@
+import { Turn } from '../types/scoreborad';
 import type { NodeCG } from './nodecg';
 // import { YugiohDb } from './class';
 import { PrismaClient } from '@prisma/client';
@@ -6,10 +7,13 @@ import { PrismaClient } from '@prisma/client';
 export default (nodecg: NodeCG) => {
   const prisma = new PrismaClient();
 
+  const repRedPlayer = nodecg.Replicant('yugiohCardRedPlayer');
+  const repBluePlayer = nodecg.Replicant('yugiohCardBluePlayer');
+
   // サーバー側にログを出す場合のコード
   const log = new nodecg.Logger('yugioh');
 
-  const search = async (word: string) => {
+  const search = async ({ word, side }: { word: string, side: Turn}) => {
     const result = await prisma.cards.findMany({
       where: {
         OR: [
@@ -30,9 +34,11 @@ export default (nodecg: NodeCG) => {
     // const db = new Database(dbPath);
 
     log.info(result);
-
-    const repYugioh = nodecg.Replicant('yugioh');
-    repYugioh.value = result;
+    if (side === 'Red') {
+      repRedPlayer.value = result;
+    } else {
+      repBluePlayer.value = result;
+    }
   };
 
   // const yugiohDb = new YugiohDb(nodecg);

@@ -3,7 +3,8 @@ import { Typography } from '@mui/material';
 import { useReplicant } from '../../hooks/useReplicant';
 
 export const DisplaySearchResult = ({ side }: { side: Turn }) => {
-  const [repYugioh] = useReplicant('yugioh');
+  const playerSide = side === 'Red' ? 'yugiohCardRedPlayer' : 'yugiohCardBluePlayer';
+  const [repYugioh] = useReplicant(playerSide);
   return (
     <Typography variant="body1" color="textSecondary">
       {repYugioh?.length ?? 0} results

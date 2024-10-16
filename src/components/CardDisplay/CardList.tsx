@@ -9,7 +9,8 @@ export const CardList = ({ side }: { side: Turn }) => {
   const handleChange = (_event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
     setCard(newAlignment);
   };
-  const [repYugioh] = useReplicant('yugioh');
+  const playerSide = side === 'Red' ? 'yugiohCardRedPlayer' : 'yugiohCardBluePlayer';
+  const [repYugioh] = useReplicant(playerSide);
   return (
     <ToggleButtonGroup
       color="primary"
