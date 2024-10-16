@@ -20,11 +20,10 @@ export const CardList = ({ side }: { side: Turn }) => {
       orientation="vertical"
       sx={{ maxHeight: 425, overflow: 'auto' }}
     >
-      {repYugioh
-        ? repYugioh.map((card) => (
+      {repYugioh?.map((card) => (
           <ToggleButton value={card.name_jp ?? ''}>{card.name_jp}</ToggleButton>
           ))
-        : null}
+        ?? null}
     </ToggleButtonGroup>
   );
 };
