@@ -41,12 +41,6 @@ const PlayerBox = memo(({ side }: { side: Turn }) => {
 });
 
 export function App() {
-  // const [repRound, setRepRound] = useReplicant('Round');
-  // const [repBestOf, setRepBestOf] = useReplicant('BestOf');
-  // const [repPhase, setRepPhase] = useReplicant('Phase');
-  // const [repTurn, setRepTurn] = useReplicant('Turn');
-  // const [repPlayer, setRepPlayer] = useReplicant('Player');
-
   return (
     <Stack spacing={2} direction="row">
       <Stack spacing={2}>
@@ -70,25 +64,6 @@ export function App() {
         <Wrapper title="Option">
           <Option />
         </Wrapper>
-
-        {/* <div>repPhase: {repPhase}</div> */}
-
-        {/* <Wrapper title="Replicant"> */}
-        {/* <div>repRound: {repRound}</div>
-        <div>repBestOf: {repBestOf}</div>
-        <div>repTurn: {repTurn}</div>
-        <div>repPhase: {repPhase}</div>
-        <div>{repPlayer?.Red.name}</div>
-        <div>{repPlayer?.Red.decktype}</div>
-        <div>{repPlayer?.Red.card}</div>
-        <div>{repPlayer?.Red.life}</div>
-        <div>{repPlayer?.Red.score}</div>
-        <div>{repPlayer?.Blue.name}</div>
-        <div>{repPlayer?.Blue.decktype}</div>
-        <div>{repPlayer?.Blue.card}</div>
-        <div>{repPlayer?.Blue.life}</div>
-        <div>{repPlayer?.Blue.score}</div> */}
-        {/* </Wrapper> */}
       </Stack>
 
       <PlayerBox side="Red" />
