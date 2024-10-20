@@ -1,13 +1,15 @@
 import TextField from '@mui/material/TextField';
 import { Turn } from '../../types/scoreborad';
 import { ChangeEventHandler, memo, useCallback, useState } from 'react';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { lifeAtomFamily } from '../../atoms/scoreboardAtom';
 import { Button, Stack } from '@mui/material';
 import ForwardIcon from '@mui/icons-material/Forward';
 import { ModalAlert } from '../ModalAlert';
+import { useReplicant } from '../../hooks/useReplicant';
 
 const CurrentLifePoint = memo(({ side }: { side: Turn }) => {
+  const [repLife] = useReplicant('Life');
   return (
     <TextField
       id={`${side}-current-life-point`}
@@ -17,17 +19,20 @@ const CurrentLifePoint = memo(({ side }: { side: Turn }) => {
       // disabled
       color="secondary"
       focused
-      defaultValue="8000"
+      value={repLife ? repLife[side] : 8000}
       inputProps={{ readOnly: true }}
     />
   );
 });
 
-const SubmitButton = memo(() => {
+const SubmitButton = memo(({ side }: { side: Turn }) => {
+  const life = useAtomValue(lifeAtomFamily(side));
+  const [repLife, setRepLife] = useReplicant('Life');
   const [submitOpen, setSubmitOpen] = useState(false);
   const submit = useCallback(() => {
+    if (repLife) setRepLife({ ...repLife, [side]: life });
     setSubmitOpen(true); // Submit完了のスナックバーを表示
-  }, []);
+  }, [repLife, life]);
   return (
     <>
       <Button
@@ -82,7 +87,7 @@ export const LifePoint = ({ side }: { side: Turn }) => {
   return (
     <Stack spacing={2} direction="row">
       <NewLife side={side} />
-      <SubmitButton />
+      <SubmitButton side={side} />
       <CurrentLifePoint side={side} />
     </Stack>
   );

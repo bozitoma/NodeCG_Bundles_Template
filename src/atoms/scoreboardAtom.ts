@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { atomFamily } from 'jotai/utils';
 import { playerDefaultValues } from '../defaultValues/scoreboard';
-import { Phase, Player, Scoreboard, Turn } from '../types/scoreborad';
+import { Life, Phase, Player, Scoreboard, Turn } from '../types/scoreborad';
 import { phases } from '../defaultValues/scoreboard';
 
 export const scoreboardAtom = atom<Scoreboard>({
@@ -14,6 +14,11 @@ export const scoreboardAtom = atom<Scoreboard>({
 export const playerAtom = atom<Player>({
   Red: playerDefaultValues,
   Blue: playerDefaultValues,
+});
+
+export const lifeAtom = atom<Life>({
+  Red: 8000,
+  Blue: 8000,
 });
 
 export const playerAtomFamily = atomFamily((playerSide: Turn) =>
@@ -34,27 +39,27 @@ export const playerNameAtomFamily = atomFamily((playerSide: Turn) =>
   )
 );
 
-export const playerNameSwapAtom = atom(
-  null,
-  (_get, set) => {
-    set(playerAtom, (prev) => ({
-      Red: {
-        ...prev.Red,
-        name: prev.Blue.name,
-      },
-      Blue: {
-        ...prev.Blue,
-        name: prev.Red.name,
-      },
-    }));
-  }
-);
+export const playerNameSwapAtom = atom(null, (_get, set) => {
+  set(playerAtom, (prev) => ({
+    Red: {
+      ...prev.Red,
+      name: prev.Blue.name,
+    },
+    Blue: {
+      ...prev.Blue,
+      name: prev.Red.name,
+    },
+  }));
+});
 
 export const decktypeAtomFamily = atomFamily((playerSide: Turn) =>
   atom(
     (get) => get(playerAtom)[playerSide].decktype,
     (_get, set, str: string) => {
-      set(playerAtom, (prev) => ({ ...prev, [playerSide]: { ...prev[playerSide], decktype: str } }));
+      set(playerAtom, (prev) => ({
+        ...prev,
+        [playerSide]: { ...prev[playerSide], decktype: str },
+      }));
     }
   )
 );
@@ -74,11 +79,11 @@ export const decktypeSwapAtom = atom(null, (_get, set) => {
 
 export const lifeAtomFamily = atomFamily((playerSide: Turn) =>
   atom(
-    (get) => get(playerAtom)[playerSide].life,
+    (get) => get(lifeAtom)[playerSide],
     (_get, set, newLife: number) => {
-      set(playerAtom, (prev) => ({
+      set(lifeAtom, (prev) => ({
         ...prev,
-        [playerSide]: { ...prev[playerSide], life: newLife },
+        [playerSide]: newLife,
       }));
     }
   )
@@ -86,60 +91,56 @@ export const lifeAtomFamily = atomFamily((playerSide: Turn) =>
 
 export const life100IncrementAtom = atomFamily((playerSide: Turn) =>
   atom(null, (_get, set) => {
-    set(playerAtom, (prev) => ({
+    set(lifeAtom, (prev) => ({
       ...prev,
-      [playerSide]: { ...prev[playerSide], life: prev[playerSide].life + 100 },
+      [playerSide]:   prev[playerSide] + 100 ,
     }));
   })
 );
 
 export const life1000IncrementAtom = atomFamily((playerSide: Turn) =>
   atom(null, (_get, set) => {
-    set(playerAtom, (prev) => ({
+    set(lifeAtom, (prev) => ({
       ...prev,
-      [playerSide]: { ...prev[playerSide], life: prev[playerSide].life + 1000 },
+      [playerSide]: prev[playerSide] + 1000 ,
     }));
   })
 );
 
 export const life100DecrementAtom = atomFamily((playerSide: Turn) =>
   atom(null, (_get, set) => {
-    set(playerAtom, (prev) => ({
+    set(lifeAtom, (prev) => ({
       ...prev,
-      [playerSide]: {
-        ...prev[playerSide],
-        life: 0 <= prev[playerSide].life - 100 ? prev[playerSide].life - 100 : 0,
-      },
+      [playerSide]:  0 <= prev[playerSide] - 100 ? prev[playerSide] - 100 : 0,
     }));
   })
 );
 
 export const life1000DecrementAtom = atomFamily((playerSide: Turn) =>
   atom(null, (_get, set) => {
-    set(playerAtom, (prev) => ({
+    set(lifeAtom, (prev) => ({
       ...prev,
-      [playerSide]: {
-        ...prev[playerSide],
-        life: 0 <= prev[playerSide].life - 1000 ? prev[playerSide].life - 1000 : 0,
-      },
+      [playerSide]:
+       0 <= prev[playerSide] - 1000 ? prev[playerSide] - 1000 : 0,
+
     }));
   })
 );
 
 export const lifeHalfAtom = atomFamily((playerSide: Turn) =>
   atom(null, (_get, set) => {
-    set(playerAtom, (prev) => ({
+    set(lifeAtom, (prev) => ({
       ...prev,
-      [playerSide]: { ...prev[playerSide], life: Math.ceil(prev[playerSide].life / 2) },
+      [playerSide]: Math.ceil(prev[playerSide] / 2)
     }));
   })
 );
 
 export const lifeResetAtom = atomFamily((playerSide: Turn) =>
   atom(null, (_get, set) => {
-    set(playerAtom, (prev) => ({
+    set(lifeAtom, (prev) => ({
       ...prev,
-      [playerSide]: { ...prev[playerSide], life: 8000 },
+      [playerSide]:  8000 ,
     }));
   })
 );
@@ -169,15 +170,12 @@ export const scoreAtomFamily = atomFamily((playerSide: Turn) =>
 );
 
 export const scoreIncrementAtom = atomFamily((playerSide: Turn) =>
-  atom(
-    null,
-    (_get, set) => {
-      set(playerAtom, (prev) => ({
-        ...prev,
-        [playerSide]: { ...prev[playerSide], score: prev[playerSide].score + 1 },
-      }));
-    }
-  )
+  atom(null, (_get, set) => {
+    set(playerAtom, (prev) => ({
+      ...prev,
+      [playerSide]: { ...prev[playerSide], score: prev[playerSide].score + 1 },
+    }));
+  })
 );
 
 export const scoreDecrementAtom = atomFamily((playerSide: Turn) =>
@@ -253,7 +251,6 @@ export const nextTurnAtom = atom(null, (_get, set) => {
 export const changeTurnAtom = atom(null, (_get, set) => {
   set(scoreboardAtom, (prev) => ({
     ...prev,
-    Phase: 'DRAW PHASE',
     Turn: prev.Turn === 'Red' ? 'Blue' : 'Red',
   }));
 });
@@ -263,7 +260,7 @@ export const nextPhaseAtom = atom(null, (get, set) => {
   const endPhase = nowPhase === phases.length - 1;
   const nextPhase = endPhase ? 0 : nowPhase + 1;
   set(phaseAtom, phases[nextPhase]);
-  if (endPhase) set(nextTurnAtom);
+  if (endPhase) set(changeTurnAtom);
 });
 
 export const prevPhaseAtom = atom(null, (get, set) => {
@@ -271,7 +268,7 @@ export const prevPhaseAtom = atom(null, (get, set) => {
   const drawPhase = nowPhase === 0;
   const prevPhase = drawPhase ? phases.length - 1 : nowPhase - 1;
   set(phaseAtom, phases[prevPhase]);
-  if (drawPhase) set(nextTurnAtom);
+  if (drawPhase) set(changeTurnAtom);
 });
 
 export const restartAtom = atom(null, (_get, set) => {
