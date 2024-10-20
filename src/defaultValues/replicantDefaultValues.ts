@@ -26,5 +26,9 @@ export const replicantDefaultValues: ReplicantMap = {
   },
   Phase: 'DRAW PHASE',
   PhaseDisplay: true,
-  Turn: 'Red'
+  Turn: 'Red',
+  CardDisplay: {
+    Red: true,
+    Blue: true
+  }
 };

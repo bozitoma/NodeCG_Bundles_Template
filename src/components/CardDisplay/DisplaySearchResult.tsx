@@ -8,7 +8,6 @@ export const DisplaySearchResult = ({ side }: { side: Turn }) => {
   return (
     <Typography variant="body1" color="textSecondary">
       {repYugioh?.length ?? 0} results
-      {/* {repYugioh?.[side].name_jp ? repYugioh?.[side].name_jp.length : '-'} results */}
     </Typography>
   );
 };

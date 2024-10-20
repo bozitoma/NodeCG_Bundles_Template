@@ -1,15 +1,22 @@
+import { Life, Phase, Player, Turn } from "./scoreborad";
+
 // Replicantsの型を定義
 export interface ReplicantMap {
-  // Sample
   yugiohCardRedPlayer: {
     name_jp: string | null;
   }[];
   yugiohCardBluePlayer: {
     name_jp: string | null;
   }[];
-  // yugioh: {
-  //   Red: { name_jp: string[] | null };
-  //   Blue: { name_jp: string[] | null };
-  // };
-  // playerName2p: string;
+  Round: string;
+  BestOf: string;
+  Phase: Phase;
+  Turn: Turn;
+  Player: Player;
+  Life: Life;
+  PhaseDisplay: boolean;
+  CardDisplay: {
+    Red: boolean;
+    Blue: boolean;
+  };
 }

@@ -10,21 +10,8 @@ export const phases: Phase[] = [
 ];
 
 export const playerDefaultValues = {
-  name: 'name',
+  name: '',
   decktype: '',
-  life: 8000,
   card: '',
   score: 0,
-};
-
-export const scoreboradDefaultValues = {
-  // Message: '',
-  // TournamentName: '',
-  Round: '',
-  BestOf: '',
-  Player: {
-    Red: playerDefaultValues,
-    Blue: playerDefaultValues,
-  },
-  Phase: phases,
 };

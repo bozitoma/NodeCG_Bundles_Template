@@ -2,7 +2,7 @@ import { ChangeEventHandler, memo, useCallback, useState } from 'react';
 import './App.css';
 import { useReplicant } from '../hooks/useReplicant';
 
-import {  Stack } from '@mui/material';
+import {  Stack, Typography } from '@mui/material';
 import { Bestof } from '../components/Bestof';
 import { Round } from '../components/Round';
 
@@ -16,12 +16,21 @@ import { Life } from '../components/Life';
 import { CardDisplay } from '../components/CardDisplay';
 import { TitleDivider } from '../components/TitleDivider';
 import { Turn } from '../types/scoreborad';
+import { Option } from '../components/Option';
 
-const PlayerBox = memo(({side}: {side: Turn}) => {
+const PlayerBox = memo(({ side }: { side: Turn }) => {
+  const [repPlayer] = useReplicant('Player');
   return (
-    <Wrapper title={`${side} Player`} >
+    <Wrapper title={`${side} Player`}>
+      <Stack spacing={2} direction="row" justifyContent="space-evenly">
+        <Typography variant="body1" color="textSecondary" fontSize={20}>
+          name | {repPlayer ? repPlayer[side].name : ''}
+        </Typography>
+        <Typography variant="body1" color="textSecondary" fontSize={20}>
+          decktype | {repPlayer ? repPlayer[side].decktype : ''}
+        </Typography>
+      </Stack>
       <Stack spacing={2}>
-        {/** 名前とデッキタイプを表示したい */}
         <TitleDivider text="Life Point" />
         <Life side={side} />
         <TitleDivider text="Card" />
@@ -32,27 +41,11 @@ const PlayerBox = memo(({side}: {side: Turn}) => {
 })
 
 export function App() {
-  // const [value, setValue] = useState('');
-  // const [selectCard, setSelectCard] = useState('');
-  // const [repYugioh] = useReplicant('yugioh');
-  // // const [repYugioh, setRepYugioh] = useReplicant('yugioh');
-
-  // // const nextPhase = useSetAtom(nextPhaseAtom);
-  // // const prevPhase = useSetAtom(prevPhaseAtom);
-
-  // const onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback((e) => {
-  //   setValue(e.target.value);
-  // }, []);
-
-  // const onClick = useCallback(() => {
-  //   nodecg.sendMessage('search', value);
-  //   console.log(repYugioh);
-  //   // nextPhase();
-  //   // prevPhase
-  // }, [value]);
-
-
-  // const imgPath = getImage(`card/${selectCard}.jpg`);
+  // const [repRound, setRepRound] = useReplicant('Round');
+  // const [repBestOf, setRepBestOf] = useReplicant('BestOf');
+  // const [repPhase, setRepPhase] = useReplicant('Phase');
+  // const [repTurn, setRepTurn] = useReplicant('Turn');
+  // const [repPlayer, setRepPlayer] = useReplicant('Player');
 
   return (
     <Stack spacing={2} direction="row">
@@ -73,6 +66,29 @@ export function App() {
         <Wrapper title="Phase">
           <Phase />
         </Wrapper>
+
+        <Wrapper title="Option">
+          <Option />
+        </Wrapper>
+
+        {/* <div>repPhase: {repPhase}</div> */}
+
+        {/* <Wrapper title="Replicant"> */}
+        {/* <div>repRound: {repRound}</div>
+        <div>repBestOf: {repBestOf}</div>
+        <div>repTurn: {repTurn}</div>
+        <div>repPhase: {repPhase}</div>
+        <div>{repPlayer?.Red.name}</div>
+        <div>{repPlayer?.Red.decktype}</div>
+        <div>{repPlayer?.Red.card}</div>
+        <div>{repPlayer?.Red.life}</div>
+        <div>{repPlayer?.Red.score}</div>
+        <div>{repPlayer?.Blue.name}</div>
+        <div>{repPlayer?.Blue.decktype}</div>
+        <div>{repPlayer?.Blue.card}</div>
+        <div>{repPlayer?.Blue.life}</div>
+        <div>{repPlayer?.Blue.score}</div> */}
+        {/* </Wrapper> */}
       </Stack>
 
       <PlayerBox side="Red" />

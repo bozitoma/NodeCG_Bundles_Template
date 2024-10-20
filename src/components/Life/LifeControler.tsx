@@ -21,9 +21,6 @@ export const LifeControler = ({ side }: { side: Turn }) => {
 
   return (
     <ButtonGroup fullWidth>
-      <Button onClick={reset} color="secondary">
-        8000
-      </Button>
       <Button color="info" onClick={life1000Decrement}>
         -1000
       </Button>
@@ -38,6 +35,9 @@ export const LifeControler = ({ side }: { side: Turn }) => {
       </Button>
       <Button color="info" onClick={life1000Increment}>
         +1000
+      </Button>
+      <Button color="info" onClick={reset}>
+        8000
       </Button>
     </ButtonGroup>
   );

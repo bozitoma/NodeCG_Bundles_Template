@@ -7,8 +7,20 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { ModalAlert } from '../ModalAlert/ModalAlert';
 import { DialogAlert } from '../DialogAlert/DialogAlert';
+import { useReplicant } from '../../hooks/useReplicant';
+import { useAtom } from 'jotai';
+import { bestofAtom, playerAtomFamily, roundAtom } from '../../atoms/scoreboardAtom';
+import { playerDefaultValues } from '../../defaultValues/scoreboard';
 
 export const Buttons = () => {
+  const [repRound, setRepRound] = useReplicant('Round');
+  const [repBestOf, setRepBestOf] = useReplicant('BestOf');
+  const [repPlayer, setRepPlayer] = useReplicant('Player');
+  const [round, setRound] = useAtom(roundAtom);
+  const [bestof, setBestof] = useAtom(bestofAtom);
+  const [playerRed, setPlayerRed] = useAtom(playerAtomFamily('Red'));
+  const [playerBlue, setPlayerBlue] = useAtom(playerAtomFamily('Blue'));
+
   // Submitのスナックバー
   const [submitOpen, setSubmitOpen] = useState(false);
 
@@ -23,15 +35,32 @@ export const Buttons = () => {
   }, []);
 
   const submit = useCallback(() => {
+    setRepRound(round);
+    setRepBestOf(bestof);
+    setRepPlayer({
+      Red: playerRed,
+      Blue: playerBlue,
+    });
     setSubmitOpen(true); // Submit完了のスナックバーを表示
-  }, []);
+  }, [round, bestof, playerRed, playerBlue]);
 
   const reset = useCallback(() => {
+    setRepRound('');
+    setRepBestOf('');
+    setRepPlayer({
+      Red: playerDefaultValues,
+      Blue: playerDefaultValues,
+    });
     setResetOpen(false); // Resetのモーダルを閉じる
     setResetCompleteOpen(true); // Reset完了のスナックバーを表示
   }, []);
 
-  const restore = useCallback(() => {}, []);
+  const restore = useCallback(() => {
+    setRound(repRound ?? '');
+    setBestof(repBestOf ?? '');
+    setPlayerRed(repPlayer?.Red ?? playerDefaultValues);
+    setPlayerBlue(repPlayer?.Blue ?? playerDefaultValues);
+  }, [repRound, repBestOf, repPlayer]);
 
   return (
     <>

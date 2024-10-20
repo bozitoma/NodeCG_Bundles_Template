@@ -1,6 +1,4 @@
-import { playerDefaultValues, scoreboradDefaultValues } from "../../defaultValues/scoreboard";
-
-export type Turn = keyof typeof scoreboradDefaultValues.Player;
+import { playerDefaultValues } from "../../defaultValues/scoreboard";
 
 export type Phase =
   | 'DRAW PHASE'
@@ -21,3 +19,11 @@ export type Player = {
   Red: typeof playerDefaultValues;
   Blue: typeof playerDefaultValues;
 };
+
+export type Life = {
+  Red: number;
+  Blue: number;
+};
+
+export type Turn = keyof Player
+

@@ -1,18 +1,25 @@
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { MouseEvent, useCallback } from 'react';
+import { MouseEvent, useCallback, useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { turnAtom } from '../../atoms/scoreboardAtom';
 import { Turn } from '../../types/scoreborad';
+import { useReplicant } from '../../hooks/useReplicant';
 
 export const ToggleTurn = () => {
   const [turn, setTurn] = useAtom(turnAtom);
+  const [, setRepTurn] = useReplicant('Turn');
+
   const handleChange = useCallback((_event: MouseEvent<HTMLElement>, newAlignment: Turn) => {
     if (newAlignment !== null) {
-      // setAlignment(newAlignment);
       setTurn(newAlignment);
     }
   }, []);
+
+  useEffect(() => {
+    setRepTurn(turn);
+  }, [turn]);
+
   return (
     <ToggleButtonGroup
       id="ToggleTurn"
