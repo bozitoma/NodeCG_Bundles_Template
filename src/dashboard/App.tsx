@@ -1,8 +1,8 @@
-import { ChangeEventHandler, memo, useCallback, useState } from 'react';
+import { memo } from 'react';
 import './App.css';
 import { useReplicant } from '../hooks/useReplicant';
 
-import {  Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { Bestof } from '../components/Bestof';
 import { Round } from '../components/Round';
 
@@ -38,7 +38,7 @@ const PlayerBox = memo(({ side }: { side: Turn }) => {
       </Stack>
     </Wrapper>
   );
-})
+});
 
 export function App() {
   // const [repRound, setRepRound] = useReplicant('Round');
